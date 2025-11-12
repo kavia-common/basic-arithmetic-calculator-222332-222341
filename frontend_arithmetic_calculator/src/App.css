@@ -8,10 +8,16 @@
   --color-surface: #FFFFFF;
   --color-text: #374151;
 
-  --shadow-sm: 0 4px 14px rgba(139, 92, 246, 0.15);
-  --shadow-md: 0 10px 24px rgba(236, 72, 153, 0.15);
-  --radius: 18px;
+  --shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --shadow-sm: 0 4px 14px rgba(139, 92, 246, 0.14);
+  --shadow-md: 0 10px 24px rgba(236, 72, 153, 0.18);
+
+  --radius: 16px;
   --radius-sm: 12px;
+
+  --gap-sm: 10px;
+  --gap-md: 12px;
+  --gap-lg: 16px;
 }
 
 * { box-sizing: border-box; }
@@ -52,26 +58,26 @@
 /* Calculator shell */
 .calculator {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   background: var(--color-surface);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  border: 1px solid rgba(139,92,246,0.12);
+  border: 1px solid rgba(139,92,246,0.14);
 }
 
 .calculator-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
+  padding: 12px 16px;
   background: linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.08));
-  border-bottom: 1px solid rgba(139,92,246,0.12);
+  border-bottom: 1px solid rgba(139,92,246,0.14);
 }
 
 .header-title {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   color: var(--color-secondary);
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -92,82 +98,91 @@
 
 /* Display */
 .display {
-  padding: 18px 16px;
+  padding: 12px 16px 10px; /* tightened vertical spacing above keypad */
   background: linear-gradient(180deg, #fafafa, #ffffff);
   border-bottom: 1px solid rgba(139,92,246,0.12);
 }
 
 .display-screen {
   width: 100%;
-  min-height: 72px;
+  min-height: 76px;
   background: #f9fafb;
-  border: 1px solid rgba(139,92,246,0.15);
+  border: 1px solid rgba(139,92,246,0.18);
   border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  padding: 12px 12px 10px;
   text-align: right;
   box-shadow: inset 0 4px 12px rgba(139,92,246,0.08);
+  overflow: hidden;
 }
 
 .display-prev {
-  font-size: 14px;
+  font-size: 13px;
   color: #6B7280;
   min-height: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .display-current {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--color-text);
-  word-break: break-all;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 /* Keypad */
 .keypad {
-  padding: 16px;
+  padding: 14px 16px 16px;
   display: grid;
   grid-auto-rows: auto;
-  gap: 12px;
+  gap: var(--gap-md);
 }
 
 /* First row: controls (AC, DEL, +/- , =) */
 .keypad-row.keypad-controls {
   display: grid;
   grid-template-columns: repeat(3, 1fr) 1fr;
-  gap: 12px;
+  gap: var(--gap-md);
+  align-items: stretch;
 }
 
 /* Digits grid: 4 equal columns */
 .keypad-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  gap: var(--gap-md);
 }
 
 /* Base key styling */
 .key {
   appearance: none;
   border: none;
-  border-radius: 14px;
+  border-radius: 14px; /* soft rounding */
   padding: 14px 12px;
+  min-height: 44px; /* a11y target size */
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--color-text);
   background: #ffffff;
-  border: 1px solid rgba(139,92,246,0.14);
+  border: 1px solid rgba(139,92,246,0.16);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: transform .06s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
   outline: 2px solid transparent;
   outline-offset: 2px;
 
-  /* Make keys square-ish on larger screens */
+  /* Square keys for typical desktop widths, gracefully relax on small screens */
   aspect-ratio: 1 / 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Tall equals spans two rows to the right when used in controls row */
+/* Tall equals spans two rows */
 .key.equals.tall {
   grid-row: span 2;
 }
@@ -175,45 +190,47 @@
 /* Allow certain keys to be wider (like 0) */
 .key.wide { grid-column: span 2; }
 
+/* Interaction feedback */
 .key:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
+  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.18);
   will-change: transform;
 }
 
 .key:active {
-  transform: translateY(0);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(0) scale(0.985);
+  box-shadow: var(--shadow-xs);
 }
 
+/* Themed variants with accessible contrast */
 .key.operator { 
-  background: linear-gradient(180deg, rgba(236,72,153,0.1), rgba(236,72,153,0.08));
-  color: #9D174D;
-  border-color: rgba(236,72,153,0.25);
+  background: linear-gradient(180deg, rgba(236,72,153,0.12), rgba(236,72,153,0.06));
+  color: #7a103f;
+  border-color: rgba(236,72,153,0.35);
 }
 .key.operator.secondary { 
-  background: linear-gradient(180deg, rgba(139,92,246,0.12), rgba(139,92,246,0.08));
-  color: #4C1D95;
-  border-color: rgba(139,92,246,0.25);
+  background: linear-gradient(180deg, rgba(139,92,246,0.14), rgba(139,92,246,0.08));
+  color: #3E1A88;
+  border-color: rgba(139,92,246,0.38);
 }
 .key.equals {
-  background: linear-gradient(180deg, rgba(16,185,129,0.18), rgba(16,185,129,0.14));
+  background: linear-gradient(180deg, rgba(16,185,129,0.22), rgba(16,185,129,0.16));
   color: #065F46;
-  border-color: rgba(16,185,129,0.35);
+  border-color: rgba(16,185,129,0.42);
   grid-column: span 2;
 }
 .key.wide { grid-column: span 2; }
 
 .key.error {
-  background: linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.08));
+  background: linear-gradient(180deg, rgba(239,68,68,0.16), rgba(239,68,68,0.10));
   color: #7F1D1D;
-  border-color: rgba(239,68,68,0.25);
+  border-color: rgba(239,68,68,0.35);
 }
 
 /* Focus styles for a11y */
 .key:focus-visible {
-  outline: 3px solid rgba(139,92,246,0.75);
-  outline-offset: 2px;
+  outline: 3px solid rgba(139,92,246,0.85);
+  outline-offset: 3px;
 }
 
 /* Footer */
@@ -224,10 +241,30 @@
   text-align: center;
 }
 
-/* Small screens */
-@media (max-width: 420px) {
+/* Responsiveness */
+/* Small screens: reduce gaps and padding, relax square keys to avoid overflow */
+@media (max-width: 480px) {
   .calculator { max-width: 94vw; }
+  .display { padding: 10px 12px 8px; }
   .display-current { font-size: 24px; }
-  .key { padding: 12px 10px; font-size: 16px; aspect-ratio: auto; }
+  .keypad { padding: 12px; gap: var(--gap-sm); }
+  .keypad-row.keypad-controls, .keypad-grid { gap: var(--gap-sm); }
+  .key { padding: 12px 10px; font-size: 16px; aspect-ratio: auto; min-height: 44px; }
   .key.equals.tall { grid-row: auto; }
+}
+
+/* Medium screens (tablets): balanced spacing */
+@media (min-width: 481px) and (max-width: 1023px) {
+  .calculator { max-width: 92vw; }
+  .keypad { gap: var(--gap-md); }
+  .keypad-row.keypad-controls, .keypad-grid { gap: var(--gap-md); }
+  .key { aspect-ratio: auto; min-height: 48px; }
+}
+
+/* Large screens (>=1024px): enforce perfect squares, increase gap slightly */
+@media (min-width: 1024px) {
+  .calculator { max-width: 420px; }
+  .keypad { gap: var(--gap-lg); }
+  .keypad-row.keypad-controls, .keypad-grid { gap: var(--gap-lg); }
+  .key { aspect-ratio: 1 / 1; }
 }

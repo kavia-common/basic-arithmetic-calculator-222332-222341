@@ -13,7 +13,7 @@ export default function KeyButton({ label, onClick, ariaLabel, className = '', d
       onClick={onClick}
       data-key={dataKey}
     >
-      {label}
+      <span aria-hidden="true">{label}</span>
     </button>
   );
 }

@@ -12,13 +12,14 @@ export default function Display({ current, previous, operator, error }) {
   return (
     <div className="display">
       <div className="display-screen" role="status" aria-live="polite" aria-atomic="true">
-        <div className="display-prev" aria-label="Previous operation">
+        <div className="display-prev" aria-label="Previous operation" title={prevText}>
           {prevText}
         </div>
         <div
           className="display-current"
           aria-label={error ? 'Error' : 'Current value'}
           style={error ? { color: '#B91C1C' } : undefined}
+          title={currentText}
         >
           {currentText}
         </div>
