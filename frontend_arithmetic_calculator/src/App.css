@@ -125,10 +125,25 @@
 .keypad {
   padding: 16px;
   display: grid;
+  grid-auto-rows: auto;
+  gap: 12px;
+}
+
+/* First row: controls (AC, DEL, +/- , =) */
+.keypad-row.keypad-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1fr;
+  gap: 12px;
+}
+
+/* Digits grid: 4 equal columns */
+.keypad-grid {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
+/* Base key styling */
 .key {
   appearance: none;
   border: none;
@@ -144,11 +159,26 @@
   transition: transform .06s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
   outline: 2px solid transparent;
   outline-offset: 2px;
+
+  /* Make keys square-ish on larger screens */
+  aspect-ratio: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
+/* Tall equals spans two rows to the right when used in controls row */
+.key.equals.tall {
+  grid-row: span 2;
+}
+
+/* Allow certain keys to be wider (like 0) */
+.key.wide { grid-column: span 2; }
 
 .key:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
+  will-change: transform;
 }
 
 .key:active {
@@ -198,5 +228,6 @@
 @media (max-width: 420px) {
   .calculator { max-width: 94vw; }
   .display-current { font-size: 24px; }
-  .key { padding: 12px 10px; font-size: 16px; }
+  .key { padding: 12px 10px; font-size: 16px; aspect-ratio: auto; }
+  .key.equals.tall { grid-row: auto; }
 }

@@ -4,6 +4,8 @@ import KeyButton from './KeyButton';
 /**
  * PUBLIC_INTERFACE
  * Keypad: Renders calculator buttons and wires callbacks.
+ * The layout is split into a controls row and a digits grid to ensure
+ * consistent placement and sizing. The equals key is tall and spans two rows.
  */
 export default function Keypad({
   onDigit,
@@ -23,27 +25,31 @@ export default function Keypad({
 
   return (
     <div className="keypad" role="group" aria-label="Calculator keypad">
-      <KeyButton label="AC" onClick={onClear} ariaLabel="All Clear" className="error" dataKey="AC" />
-      <KeyButton label="DEL" onClick={onDelete} ariaLabel="Delete" className="error" dataKey="DEL" />
-      <KeyButton label="+/-" onClick={onToggleSign} ariaLabel="Toggle sign" dataKey="SIGN" />
-      <KeyButton label="=" onClick={onEquals} ariaLabel="Equals" className="equals" dataKey="=" />
+      <div className="keypad-row keypad-controls" aria-label="Controls row">
+        <KeyButton label="AC" onClick={onClear} ariaLabel="All Clear" className="error" dataKey="AC" />
+        <KeyButton label="DEL" onClick={onDelete} ariaLabel="Delete" className="error" dataKey="DEL" />
+        <KeyButton label="+/-" onClick={onToggleSign} ariaLabel="Toggle sign" dataKey="SIGN" />
+        <KeyButton label="=" onClick={onEquals} ariaLabel="Equals" className="equals tall" dataKey="=" />
+      </div>
 
-      {digits.map((d) => (
-        <KeyButton
-          key={d.label}
-          label={d.label}
-          className={d.className}
-          ariaLabel={`Key ${d.label}`}
-          dataKey={d.label}
-          onClick={
-            d.action
-              ? d.action
-              : d.label === '.'
-                ? onDecimal
-                : () => onDigit(d.label)
-          }
-        />
-      ))}
+      <div className="keypad-grid" aria-label="Digits and operators grid">
+        {digits.map((d) => (
+          <KeyButton
+            key={d.label}
+            label={d.label}
+            className={d.className}
+            ariaLabel={`Key ${d.label}`}
+            dataKey={d.label}
+            onClick={
+              d.action
+                ? d.action
+                : d.label === '.'
+                  ? onDecimal
+                  : () => onDigit(d.label)
+            }
+          />
+        ))}
+      </div>
     </div>
   );
 }
