@@ -1,104 +1,202 @@
-/* CSS Variables for Theme Management */
+/* Ocean Professional Theme Variables */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --color-primary: #EC4899;   /* pink */
+  --color-secondary: #8B5CF6; /* purple */
+  --color-success: #10B981;
+  --color-error: #EF4444;
+  --color-bg: #FDF2F8;        /* background */
+  --color-surface: #FFFFFF;
+  --color-text: #374151;
+
+  --shadow-sm: 0 4px 14px rgba(139, 92, 246, 0.15);
+  --shadow-md: 0 10px 24px rgba(236, 72, 153, 0.15);
+  --radius: 18px;
+  --radius-sm: 12px;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
+* { box-sizing: border-box; }
 
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #ffe4ef, #ede9fe, #dbeafe);
+  background-attachment: fixed;
+  color: var(--color-text);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ocean-bg {
+  background:
+    radial-gradient(1200px 600px at -10% -10%, rgba(236,72,153,0.12), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(139,92,246,0.12), transparent 60%),
+    radial-gradient(1000px 600px at 50% 120%, rgba(59,130,246,0.1), transparent 60%),
+    linear-gradient(180deg, #fff0f7, #eef2ff 60%, #e0f2fe);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.app-container {
+  width: 100%;
+  padding: 24px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.visually-hidden {
+  position: absolute!important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+/* Calculator shell */
+.calculator {
+  width: 100%;
+  max-width: 380px;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  border: 1px solid rgba(139,92,246,0.12);
+}
+
+.calculator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(236,72,153,0.08), rgba(139,92,246,0.08));
+  border-bottom: 1px solid rgba(139,92,246,0.12);
+}
+
+.header-title {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--color-secondary);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.header-badges {
+  display: flex;
+  gap: 8px;
+}
+.badge {
+  width: 10px; height: 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.6) inset;
+}
+.badge.pink { background: var(--color-primary); }
+.badge.purple { background: var(--color-secondary); }
+.badge.blue { background: #60A5FA; }
+
+/* Display */
+.display {
+  padding: 18px 16px;
+  background: linear-gradient(180deg, #fafafa, #ffffff);
+  border-bottom: 1px solid rgba(139,92,246,0.12);
+}
+
+.display-screen {
+  width: 100%;
+  min-height: 72px;
+  background: #f9fafb;
+  border: 1px solid rgba(139,92,246,0.15);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: right;
+  box-shadow: inset 0 4px 12px rgba(139,92,246,0.08);
+}
+
+.display-prev {
+  font-size: 14px;
+  color: #6B7280;
+  min-height: 18px;
+}
+
+.display-current {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-text);
+  word-break: break-all;
+}
+
+/* Keypad */
+.keypad {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.key {
+  appearance: none;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 12px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text);
+  background: #ffffff;
+  border: 1px solid rgba(139,92,246,0.14);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform .06s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.key:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(139, 92, 246, 0.15);
 }
 
-.theme-toggle:active {
+.key:active {
   transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.key.operator { 
+  background: linear-gradient(180deg, rgba(236,72,153,0.1), rgba(236,72,153,0.08));
+  color: #9D174D;
+  border-color: rgba(236,72,153,0.25);
+}
+.key.operator.secondary { 
+  background: linear-gradient(180deg, rgba(139,92,246,0.12), rgba(139,92,246,0.08));
+  color: #4C1D95;
+  border-color: rgba(139,92,246,0.25);
+}
+.key.equals {
+  background: linear-gradient(180deg, rgba(16,185,129,0.18), rgba(16,185,129,0.14));
+  color: #065F46;
+  border-color: rgba(16,185,129,0.35);
+  grid-column: span 2;
+}
+.key.wide { grid-column: span 2; }
+
+.key.error {
+  background: linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.08));
+  color: #7F1D1D;
+  border-color: rgba(239,68,68,0.25);
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Focus styles for a11y */
+.key:focus-visible {
+  outline: 3px solid rgba(139,92,246,0.75);
+  outline-offset: 2px;
+}
+
+/* Footer */
+.footer {
+  padding: 8px 16px 16px;
+  color: #6B7280;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Small screens */
+@media (max-width: 420px) {
+  .calculator { max-width: 94vw; }
+  .display-current { font-size: 24px; }
+  .key { padding: 12px 10px; font-size: 16px; }
 }
